@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Star, MapPin } from 'lucide-react';
 import { useCountriesStore } from '../store/countriesStore';
 import { useEstablishmentsStore } from '../store/establishmentsStore';
+import { EstablishmentCard } from '../components/establishments/EstablishmentCard';
 
 export function CountryDetailPage() {
   const { regionId, countryId } = useParams<{ regionId: string; countryId: string }>();
@@ -65,48 +66,16 @@ export function CountryDetailPage() {
       </div>
 
       <div className="mt-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Popular Establishments</h2>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {establishments.map((establishment) => (
-            <div
-              key={establishment.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden"
-            >
-              <img
-                src={establishment.imageUrl}
-                alt={establishment.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {establishment.name}
-                  </h3>
-                  <div className="flex items-center text-red-600">
-                    <Star className="h-4 w-4 fill-current" />
-                    <span className="ml-1 text-sm">{establishment.rating}</span>
-                  </div>
-                </div>
-                <div className="flex items-center text-gray-600 text-sm mb-2">
-                  <MapPin className="h-4 w-4 mr-1" />
-                  {establishment.address}
-                </div>
-                <p className="text-gray-600">{establishment.description}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {establishment.type.map((type) => (
-                    <span
-                      key={type}
-                      className="px-2 py-1 text-xs font-medium text-red-600 bg-red-50 rounded-full"
-                    >
-                      {type}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+  <h2 className="text-2xl font-bold text-gray-900 mb-6">
+    Popular Establishments
+  </h2>
+  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {establishments.map((establishment) => (
+      <EstablishmentCard key={establishment.id} establishment={establishment} />
+    ))}
+  </div>
+</div>
+
     </div>
   );
 }

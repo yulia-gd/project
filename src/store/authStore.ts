@@ -5,7 +5,7 @@ interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string, photoPath: string) => Promise<void>;
+  register: (name: string, email: string, photoPath: string, birthYear: number, gender: 'male' | 'female' ) => Promise<void>;
   logout: () => void;
 }
 
@@ -33,25 +33,25 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  register: async (name: string, email: string, password: string, photoPath: string) => {
+  register: async (name: string, email: string, photoPath: string, birthYear: number, gender: 'male' | 'female' ) => {
     try {
       const mockUser: User = {
         id: '2',
         email,
         name,
         savedEstablishments: [],
-        birthYear: 1990,
-        gender: 'other',
+        birthYear,
+        gender,
         profilePhotoUrl: photoPath, // Локальний шлях до фото
       };
-
+  
       set({ user: mockUser, isAuthenticated: true });
     } catch (error) {
       console.error('Registration error:', error);
       throw new Error('Failed to register. Please try again.');
     }
   },
-
+  
   logout: () => {
     set({ user: null, isAuthenticated: false });
   },

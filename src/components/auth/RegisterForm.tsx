@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuthStore } from '../../store/authStore';
+import { useNavigate } from 'react-router-dom';
 
 export function RegisterForm() {
   const { register } = useAuthStore();
@@ -7,6 +8,9 @@ export function RegisterForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [photo, setPhoto] = useState<File | null>(null);
+  const [birthYear, setBirthYear] = useState<number | ''>('');
+  const [gender, setGender] = useState<'male' | 'female' >("female");
+  const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,14 +20,18 @@ export function RegisterForm() {
       return;
     }
 
-    // Створюємо тимчасовий URL для фото
+    if (birthYear === '') {
+      alert('Please enter your birth year!');
+      return;
+    }
+
     const photoPath = URL.createObjectURL(photo);
 
     try {
-      await register(name, email, password, photoPath);
-      alert('Registration successful!');
+      await register(name, email, photoPath, birthYear, gender);
+      navigate('/profile');
     } catch (error) {
-      alert();
+      alert('Registration failed. Please try again.');
     }
   };
 
@@ -65,6 +73,33 @@ export function RegisterForm() {
           onChange={(e) => setPassword(e.target.value)}
           className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
         />
+      </div>
+      <div>
+        <label htmlFor="birthYear" className="block text-sm font-medium text-gray-700">
+          Birth Year
+        </label>
+        <input
+          type="number"
+          id="birthYear"
+          value={birthYear}
+          onChange={(e) => setBirthYear(Number(e.target.value))}
+          className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+        />
+      </div>
+      <div>
+        <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
+          Gender
+        </label>
+        <select
+          id="gender"
+          value={gender}
+          onChange={(e) => setGender(e.target.value as 'male' | 'female')}
+          className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
       </div>
       <div>
         <label htmlFor="photo" className="block text-sm font-medium text-gray-700">

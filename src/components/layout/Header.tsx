@@ -1,22 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import { Menu, X, UtensilsCrossed} from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { isAuthenticated, user, logout } = useAuthStore();
+  const navigate = useNavigate(); // Імпортуємо і ініціалізуємо хук
 
+  const handleLogout = () => {
+    logout(); // Викликаємо функцію logout
+    navigate('/'); // Перенаправляємо користувача на головну сторінку
+  };
   return (
     <header className="fixed w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center py-6">
-          <Link to="/" className="flex items-center space-x-2">
-            <UtensilsCrossed className="h-8 w-8 text-rad-600" />
-            <span className="text-2xl font-bold text-gray-900">
-              World<span className="text-red-600">Cuisine</span>
-            </span>
-          </Link>
+        <Link
+  to="/"
+  className="flex items-center space-x-2 hover:scale-110 transition-transform duration-300 hover:text-red-600"
+>
+  <UtensilsCrossed className="h-8 w-8 text-red-600 hover:text-pink-600 transition-colors duration-300" />
+  <span className="text-2xl font-bold text-gray-900">
+    World<span className="text-red-600 hover:text-pink-600 transition-colors duration-300">Cuisine</span>
+  </span>
+</Link>
+
 
           <nav className="hidden md:flex items-center gap-8">
             <Link to="/regions" className="text-gray-700 hover:text-pink-600 transition-colors">
@@ -38,11 +47,11 @@ export function Header() {
         {user?.name}
       </Link>
       <button
-        onClick={logout}
-        className="text-gray-700 hover:text-pink-600 transition-colors"
-      >
-        Logout
-      </button>
+                    onClick={handleLogout} // Викликаємо handleLogout замість просто logout
+                    className="text-gray-700 hover:text-pink-600 transition-colors"
+                  >
+                    Logout
+                  </button>
     </div>
   </>
 ): (
@@ -105,11 +114,11 @@ export function Header() {
                   {user?.name}
                 </Link>
                 <button
-                  onClick={logout}
-                  className="text-gray-700 hover:text-pink-600 transition-colors"
-                >
-                  Logout
-                </button>
+                      onClick={handleLogout} // Викликаємо handleLogout тут також
+                      className="text-gray-700 hover:text-pink-600 transition-colors"
+                    >
+                      Logout
+                    </button>
               </div>
             </>
 ) : (

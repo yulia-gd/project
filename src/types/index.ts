@@ -4,7 +4,7 @@ export interface User {
   name: string;
   savedEstablishments: string[];
   birthYear: number;
-  gender: 'male' | 'female' | 'other';
+  gender: 'male' | 'female';
   profilePhotoUrl: string; // URL to the profile photo
 }
 

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Header } from './components/layout/Header';
 import { HomePage } from './pages/HomePage';
 import { LoginForm } from './components/auth/LoginForm';
@@ -45,7 +45,10 @@ function App() {
             <Route path="/regions/:regionId/countries/:countryId" element={<CountryDetailPage />} />
             <Route path="/establishments" element={<EstablishmentsPage />} />
             <Route path="/saved" element={<SavedEstablishmentsPage />} />
-            <Route path="/profile" element={<UserProfile />} /> 
+            <Route path="/profile" element={<UserProfile />} />
+            
+            {/* Редирект з будь-якого іншого маршруту */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
       </div>

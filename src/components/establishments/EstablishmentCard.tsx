@@ -16,7 +16,7 @@ export function EstablishmentCard({ establishment }: EstablishmentCardProps) {
         <img
           src={establishment.imageUrl}
           alt={establishment.name}
-          className="w-full h-48 object-cover"
+          className="w-full h-48 object-cover transform transition-transform duration-300 hover:scale-105"
         />
         <button
           onClick={() => toggleSaved(establishment.id)}
@@ -24,7 +24,7 @@ export function EstablishmentCard({ establishment }: EstablishmentCardProps) {
         >
           <Bookmark
             className={`h-5 w-5 ${
-              isSaved ? 'fill-orange-600 text-orange-600' : 'text-gray-600'
+              isSaved ? 'fill-red-600 text-red-600' : 'text-gray-600'
             }`}
           />
         </button>
@@ -34,7 +34,7 @@ export function EstablishmentCard({ establishment }: EstablishmentCardProps) {
           <h3 className="text-lg font-semibold text-gray-900">
             {establishment.name}
           </h3>
-          <div className="flex items-center text-orange-600">
+          <div className="flex items-center text-red-600">
             <Star className="h-4 w-4 fill-current" />
             <span className="ml-1 text-sm">{establishment.rating}</span>
           </div>
@@ -48,7 +48,7 @@ export function EstablishmentCard({ establishment }: EstablishmentCardProps) {
           {establishment.type.map((type) => (
             <span
               key={type}
-              className="px-2 py-1 text-xs font-medium text-orange-600 bg-orange-50 rounded-full"
+              className="px-2 py-1 text-xs font-medium text-red-600 bg-red-50 rounded-full"
             >
               {type}
             </span>
