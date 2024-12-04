@@ -1,13 +1,6 @@
 import { create } from 'zustand';
-import { Region } from '../types';
 
-interface RegionsState {
-  regions: Region[];
-  selectedRegion: Region | null;
-  setSelectedRegion: (region: Region | null) => void;
-}
-
-const mockRegions: Region[] = [
+const mockRegions = [
   {
     id: 'asia',
     name: 'Asia',
@@ -31,7 +24,7 @@ const mockRegions: Region[] = [
   },
 ];
 
-export const useRegionsStore = create<RegionsState>((set) => ({
+export const useRegionsStore = create((set) => ({
   regions: mockRegions,
   selectedRegion: null,
   setSelectedRegion: (region) => set({ selectedRegion: region }),

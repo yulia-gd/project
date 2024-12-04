@@ -1,9 +1,10 @@
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useRegionsStore } from '../store/regionsStore';
 import { ArrowLeft, UtensilsCrossed } from 'lucide-react';
 
 export function RegionDetailPage() {
-  const { regionId } = useParams<{ regionId: string }>();
+  const { regionId } = useParams(); // Типи більше не використовуються
   const regions = useRegionsStore((state) => state.regions);
   const region = regions.find((r) => r.id === regionId);
 

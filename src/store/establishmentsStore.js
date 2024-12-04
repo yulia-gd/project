@@ -1,15 +1,6 @@
 import { create } from 'zustand';
-import { Establishment } from '../types';
 
-interface EstablishmentsState {
-  establishments: Establishment[];
-  savedEstablishments: string[];
-  toggleSaved: (id: string) => void;
-  filterByType: (type: string) => Establishment[];
-  filterByCountry: (country: string) => Establishment[];
-}
-
-const mockEstablishments: Establishment[] = [
+const mockEstablishments = [
   {
     id: 'sushi-master',
     name: 'Sushi Master',
@@ -32,23 +23,27 @@ const mockEstablishments: Establishment[] = [
   },
 ];
 
-export const useEstablishmentsStore = create<EstablishmentsState>((set, get) => ({
+export const useEstablishmentsStore = create((set, get) => ({
   establishments: mockEstablishments,
   savedEstablishments: [],
-  toggleSaved: (id: string) => {
+  
+  toggleSaved: (id) => {
     set((state) => ({
       savedEstablishments: state.savedEstablishments.includes(id)
         ? state.savedEstablishments.filter((savedId) => savedId !== id)
         : [...state.savedEstablishments, id],
     }));
   },
-  filterByType: (type: string) => {
+
+  filterByType: (type) => {
     return get().establishments.filter((establishment) =>
       establishment.type.includes(type)
     );
   },
-  filterByCountry: (country: string) => {
-    return get().establishments.filter(
+
+  filterByCountry: (country) => {
+    const establishments = get().establishments; // Access state using `get()` here
+    return establishments.filter(
       (establishment) => establishment.country === country
     );
   },

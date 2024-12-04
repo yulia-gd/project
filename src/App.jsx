@@ -18,28 +18,8 @@ function App() {
         <main className="pt-24 pb-12">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route
-              path="/login"
-              element={
-                <div className="max-w-md mx-auto px-4 sm:px-6">
-                  <div className="bg-white p-8 rounded-lg shadow-md">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-6">Login</h1>
-                    <LoginForm />
-                  </div>
-                </div>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <div className="max-w-md mx-auto px-4 sm:px-6">
-                  <div className="bg-white p-8 rounded-lg shadow-md">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-6">Register</h1>
-                    <RegisterForm />
-                  </div>
-                </div>
-              }
-            />
+            <Route path="/login" element={<LoginForm />}/>
+            <Route path="/register" element={<RegisterForm /> } />
             <Route path="/regions" element={<RegionsPage />} />
             <Route path="/regions/:regionId" element={<RegionDetailPage />} />
             <Route path="/regions/:regionId/countries/:countryId" element={<CountryDetailPage />} />

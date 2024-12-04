@@ -1,17 +1,12 @@
 import { Star, MapPin, Bookmark } from 'lucide-react';
 import { useEstablishmentsStore } from '../../store/establishmentsStore';
-import { Establishment } from '../../types';
 
-interface EstablishmentCardProps {
-  establishment: Establishment;
-}
-
-export function EstablishmentCard({ establishment }: EstablishmentCardProps) {
+export function EstablishmentCard({ establishment }) {
   const { savedEstablishments, toggleSaved } = useEstablishmentsStore();
   const isSaved = savedEstablishments.includes(establishment.id);
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <div className="relative">
         <img
           src={establishment.imageUrl}
@@ -25,7 +20,7 @@ export function EstablishmentCard({ establishment }: EstablishmentCardProps) {
           <Bookmark
             className={`h-5 w-5 ${
               isSaved ? 'fill-red-600 text-red-600' : 'text-gray-600'
-            }`}
+            } transition-colors duration-300`}
           />
         </button>
       </div>

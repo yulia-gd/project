@@ -11,10 +11,11 @@ const ESTABLISHMENT_TYPES = [
   'casual',
   'fine-dining',
 ];
+
 export function EstablishmentsPage() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedType, setSelectedType] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const establishments = useEstablishmentsStore((state) => state.establishments);
 
   const uniqueCountries = Array.from(

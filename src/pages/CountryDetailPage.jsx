@@ -1,14 +1,14 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Star, MapPin } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useCountriesStore } from '../store/countriesStore';
 import { useEstablishmentsStore } from '../store/establishmentsStore';
 import { EstablishmentCard } from '../components/establishments/EstablishmentCard';
 
 export function CountryDetailPage() {
-  const { regionId, countryId } = useParams<{ regionId: string; countryId: string }>();
+  const { regionId, countryId } = useParams(); // без типізації
   const countries = useCountriesStore((state) => state.countries);
   const country = countries.find((c) => c.id === countryId);
-  const establishments = useEstablishmentsStore((state) => 
+  const establishments = useEstablishmentsStore((state) =>
     state.filterByCountry(countryId || '')
   );
 
@@ -66,16 +66,15 @@ export function CountryDetailPage() {
       </div>
 
       <div className="mt-12">
-  <h2 className="text-2xl font-bold text-gray-900 mb-6">
-    Popular Establishments
-  </h2>
-  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {establishments.map((establishment) => (
-      <EstablishmentCard key={establishment.id} establishment={establishment} />
-    ))}
-  </div>
-</div>
-
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          Popular Establishments
+        </h2>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {establishments.map((establishment) => (
+            <EstablishmentCard key={establishment.id} establishment={establishment} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

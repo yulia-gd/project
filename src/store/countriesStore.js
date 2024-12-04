@@ -1,13 +1,6 @@
 import { create } from 'zustand';
-import { Country, Dish } from '../types';
 
-interface CountriesState {
-  countries: Country[];
-  selectedCountry: Country | null;
-  setSelectedCountry: (country: Country | null) => void;
-}
-
-const mockDishes: Record<string, Dish[]> = {
+const mockDishes = {
   japan: [
     {
       id: 'sushi',
@@ -38,7 +31,7 @@ const mockDishes: Record<string, Dish[]> = {
   ],
 };
 
-const mockCountries: Country[] = [
+const mockCountries = [
   {
     id: 'japan',
     name: 'Japan',
@@ -57,7 +50,7 @@ const mockCountries: Country[] = [
   },
 ];
 
-export const useCountriesStore = create<CountriesState>((set) => ({
+export const useCountriesStore = create((set) => ({
   countries: mockCountries,
   selectedCountry: null,
   setSelectedCountry: (country) => set({ selectedCountry: country }),

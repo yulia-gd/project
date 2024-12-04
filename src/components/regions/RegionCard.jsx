@@ -1,12 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
-import { Region } from '../../types';
 
-interface RegionCardProps {
-  region: Region;
-}
-
-export function RegionCard({ region }: RegionCardProps) {
+export function RegionCard({ region }) {
   return (
     <Link
       to={`/regions/${region.id}`}
