@@ -6,8 +6,16 @@ export function HomePage() {
   const regions = useRegionsStore((state) => state.regions);
 
   return (
-    <div>
-    
+    <div className="relative overflow-hidden">
+      {/* Video Background */}
+      <video
+        src="/project/video.mp4"
+        autoPlay
+        loop
+        muted
+        className="w-full h-[220px] object-cover"
+      />
+
       <section className="relative bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32">
@@ -33,9 +41,10 @@ export function HomePage() {
           </div>
         </div>
       </section>
-
+      
+      <div className="bg-red-600 h-[5px]"></div>
       {/* Features Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-red-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="text-center">
@@ -68,9 +77,9 @@ export function HomePage() {
           </div>
         </div>
       </section>
-
+      <div className="bg-red-600 h-[5px]"></div>
       {/* Featured Regions */}
-      <section className="py-16">
+      <section className="py-16 bg-white-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900">Featured Regions</h2>
