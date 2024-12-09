@@ -1,111 +1,60 @@
 import { create } from 'zustand';
-import axios from 'axios';
 
-const API_URL = 'https://project-npq0.onrender.com/api'; // Замініть на URL вашого бекенду
-
-export const useAuthStore = create((set, get) => ({
+export const useAuthStore = create((set) => ({
   user: null,
   isAuthenticated: false,
-  token: localStorage.getItem('token') || null,
-  errorMessage: null,
 
-  // Логування користувача
-  login: async (email, password) => {
+  login: async (email) => {
     try {
-      const response = await axios.post(`${API_URL}/login`, { email, password });
-      const { token, user } = response.data;
+      const mockPhotoPath = 'https://wiki.legalaid.gov.ua/images/thumb/0/0d/Person2.jpg/360px-Person2.jpg';
+      const mockUser = {
+        id: '1',
+        email,
+        name: 'Yulia Huda',
+        savedEstablishments: [],
+        birthYear: 2005,
+        gender: 'Female',
+        profilePhotoUrl: mockPhotoPath,
+      };
 
-      localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = token;
-
-      set({ user, isAuthenticated: true, token, errorMessage: null });
+      set({ user: mockUser, isAuthenticated: true });
     } catch (error) {
-      const message = error.response?.data?.message || 'Неправильний логін або пароль';
-      set({ errorMessage: message });
-      console.error('Login error:', message);
+      console.error('Login error:', error);
     }
   },
 
-  // Реєстрація користувача
-  register: async (name, email, password) => {
+  register: async (name, email, photoPath, birthYear, gender) => {
     try {
-      const response = await axios.post(`${API_URL}/register`, { name, email, password });
-      const { token, user } = response.data;
+      const mockUser = {
+        id: '2',
+        email,
+        name,
+        savedEstablishments: [],
+        birthYear,
+        gender,
+        profilePhotoUrl: photoPath,
+      };
 
-      localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = token;
-
-      set({ user, isAuthenticated: true, token, errorMessage: null });
+      set({ user: mockUser, isAuthenticated: true });
     } catch (error) {
-      const message = error.response?.data?.message || 'Помилка при реєстрації';
-      set({ errorMessage: message });
-      console.error('Registration error:', message);
+      console.error('Registration error:', error);
     }
   },
 
-  // Вихід користувача
   logout: () => {
-    localStorage.removeItem('token');
-    delete axios.defaults.headers.common['Authorization'];
-    set({ user: null, isAuthenticated: false, token: null, errorMessage: null });
+    set({ user: null, isAuthenticated: false });
   },
 
-  // Отримання даних користувача
-  fetchUser: async () => {
-    try {
-      const { token } = get();
-      if (!token) return;
-
-      const response = await axios.get(`${API_URL}/user`, {
-        headers: { Authorization: token },
-      });
-
-      set({ user: response.data, isAuthenticated: true, errorMessage: null });
-    } catch (error) {
-      const message = error.response?.data?.message || 'Помилка при отриманні даних користувача';
-      set({ errorMessage: message });
-      console.error('Fetch user error:', message);
-      get().logout();
-    }
-  },
-
-  // Оновлення даних користувача
   updateUser: async (updatedData) => {
     try {
-      const response = await axios.put(`${API_URL}/user/update`, updatedData, {
-        headers: { Authorization: get().token },
-      });
-
-      set({ user: response.data, errorMessage: null });
-    } catch (error) {
-      const message = error.response?.data?.message || 'Помилка при оновленні даних';
-      set({ errorMessage: message });
-      console.error('Update user error:', message);
-    }
-  },
-
-  // Збереження закладу для користувача
-  saveEstablishment: async (establishmentId) => {
-    try {
-      const response = await axios.post(
-        `${API_URL}/user/save-establishment`,
-        { establishmentId },
-        {
-          headers: { Authorization: get().token },
-        }
-      );
-
       set((state) => ({
         user: {
           ...state.user,
-          savedEstablishments: response.data.savedEstablishments,
+          ...updatedData,
         },
-        errorMessage: null,
       }));
     } catch (error) {
-      const message = error.response?.data?.message || 'Помилка при збереженні закладу';
-      set({ errorMessage: message });
-      console.error('Save establishment error:', message);
+      console.error('Update user error:', error);
     }
   },
 }));

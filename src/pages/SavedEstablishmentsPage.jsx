@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useEstablishmentsStore } from '../store/establishmentsStore';
 import { EstablishmentCard } from '../components/establishments/EstablishmentCard';
 import '../style/SavedEstablishmentsPage.css';
@@ -10,15 +10,9 @@ export function SavedEstablishmentsPage() {
     fetchEstablishments: state.fetchEstablishments,
   }));
 
-  const [loading, setLoading] = useState(true);  // Стейт для завантаження
-
   // Fetch establishments when the component mounts
   useEffect(() => {
-    const loadEstablishments = async () => {
-      await fetchEstablishments();
-      setLoading(false);  // Завершення завантаження після отримання даних
-    };
-    loadEstablishments();
+    fetchEstablishments();
   }, [fetchEstablishments]);
 
   const savedPlaces = establishments.filter((establishment) =>
@@ -34,11 +28,7 @@ export function SavedEstablishmentsPage() {
         </p>
       </div>
 
-      {loading ? (
-        <div className="loading-state">
-          <p>Loading your saved places...</p>
-        </div>
-      ) : savedPlaces.length > 0 ? (
+      {savedPlaces.length > 0 ? (
         <div className="saved-grid">
           {savedPlaces.map((establishment) => (
             <EstablishmentCard key={establishment.id} establishment={establishment} />

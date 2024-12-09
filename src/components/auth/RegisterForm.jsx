@@ -4,23 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import '../../style/RegisterForm.css';
 
 export function RegisterForm() {
-  const registerUser = useAuthStore((state) => state.register);
-  const errorMessage = useAuthStore((state) => state.errorMessage);
-
+  const { register } = useAuthStore();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');  // Додано для підтвердження паролю
   const [photo, setPhoto] = useState(null);
   const [birthYear, setBirthYear] = useState('');
   const [gender, setGender] = useState('female');
-
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Перевірка на заповненість полів
     if (!photo) {
       alert('Please upload a photo!');
       return;
@@ -31,16 +26,13 @@ export function RegisterForm() {
       return;
     }
 
-    if (password !== confirmPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
-
     const photoPath = URL.createObjectURL(photo);
 
-    await registerUser(name, email, password, photoPath, birthYear, gender);
-    if (!errorMessage) {
+    try {
+      await register(name, email, photoPath, birthYear, gender);
       navigate('/profile');
+    } catch (error) {
+      alert('Registration failed. Please try again.');
     }
   };
 
@@ -82,17 +74,6 @@ export function RegisterForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-        <input
-          type="password"
-          id="confirmPassword"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="form-input"
-        />
-      </div>
-
-      <div className="form-group">
         <label htmlFor="birthYear" className="form-label">Birth Year</label>
         <input
           type="number"
@@ -127,8 +108,6 @@ export function RegisterForm() {
           className="form-input"
         />
       </div>
-
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
 
       <button type="submit" className="form-button">
         Register
