@@ -1,5 +1,5 @@
 # Ігноруємо папку node_modules
-node_modules/
+node_modules/*
 
 # Ігноруємо файл .env
 .env
@@ -7,3 +7,4 @@ node_modules/
 # Інші файли, які варто ігнорувати
 .DS_Store
 npm-debug.log
+package-lock.json
