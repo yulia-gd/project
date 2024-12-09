@@ -18,6 +18,10 @@ connectDB();
 // Middleware
 app.use(express.json());
 
+// Додавання CORS middleware
+app.use(cors());
+
+// --- Маршрути для закладів ---
 
 // Отримання всіх закладів
 app.get('/api/establishments', async (req, res) => {
