@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -5,24 +6,24 @@ import { useAuthStore } from '../store/authStore';
 import { useNavigate } from 'react-router-dom';
 import '../style/EditProfilePage.css'; // Ensure the CSS file is imported
 
+// Оновлена схема для валідації
 const profileSchema = z.object({
   name: z.string().nonempty('Name is required'),
   email: z.string().email('Invalid email address'),
   birthYear: z
-    .number()
-    .min(1900, 'Year must be at least 1900')
-    .max(new Date().getFullYear(), 'Year cannot be in the future'),
+    .string()
+    .refine((value) => {
+      const year = Number(value);
+      return year >= 1900 && year <= new Date().getFullYear();
+    }, 'Year must be between 1900 and the current year'),
   gender: z.enum(['Male', 'Female', 'Other'], 'Select a valid gender'),
 });
 
 export function EditProfilePage() {
-  const { user, updateUser } = useAuthStore();
+  const { user, updateUser, fetchUser } = useAuthStore();
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const [successMessage, setSuccessMessage] = useState('');
+  const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       name: user?.name || '',
       email: user?.email || '',
@@ -32,10 +33,20 @@ export function EditProfilePage() {
     resolver: zodResolver(profileSchema),
   });
 
+  // Завантажуємо дані користувача, якщо вони ще не завантажені
+  useEffect(() => {
+    if (!user) {
+      fetchUser();
+    }
+  }, [user, fetchUser]);
+
   const onSubmit = async (data) => {
     try {
       await updateUser(data); 
-      navigate('/profile'); 
+      setSuccessMessage('Profile updated successfully!');
+      setTimeout(() => {
+        navigate('/profile'); 
+      }, 1500);
     } catch (error) {
       console.error('Profile update failed:', error);
     }
@@ -44,6 +55,10 @@ export function EditProfilePage() {
   return (
     <div className="edit-profile-container">
       <h1 className="edit-profile-title">Edit Profile</h1>
+      
+      {/* Успішне повідомлення */}
+      {successMessage && <p className="success-message">{successMessage}</p>}
+      
       <form onSubmit={handleSubmit(onSubmit)} className="edit-profile-form">
         <div>
           <label className="input-label">Name</label>

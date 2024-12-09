@@ -12,7 +12,9 @@ const loginSchema = z.object({
 
 export function LoginForm() {
   const login = useAuthStore((state) => state.login);
+  const errorMessage = useAuthStore((state) => state.errorMessage);
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -22,11 +24,9 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data) => {
-    try {
-      await login(data.email);
+    await login(data.email, data.password);
+    if (!errorMessage) {
       navigate('/profile');
-    } catch (error) {
-      console.error('Login failed:', error);
     }
   };
 
@@ -36,18 +36,16 @@ export function LoginForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label htmlFor="email" className="input-label">
-            Email
+            Emai
           </label>
           <input
             {...register('email')}
             type="email"
             className={`input-field ${errors.email ? 'input-field-error' : ''}`}
           />
-          {errors.email && (
-            <p className="error-message">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="error-message">{errors.email.message}</p>}
         </div>
-  
+
         <div>
           <label htmlFor="password" className="input-label">
             Password
@@ -57,16 +55,16 @@ export function LoginForm() {
             type="password"
             className={`input-field ${errors.password ? 'input-field-error' : ''}`}
           />
-          {errors.password && (
-            <p className="error-message">{errors.password.message}</p>
-          )}
+          {errors.password && <p className="error-message">{errors.password.message}</p>}
         </div>
-  
+
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+
         <button type="submit" className="submit-button">
           Log In
         </button>
       </form>
-  
+
       <div className="mt-4 text-center">
         <Link to="/forgot-password" className="forgot-password-link">
           Forgot password?

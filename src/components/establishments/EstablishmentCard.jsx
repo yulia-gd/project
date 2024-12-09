@@ -1,10 +1,22 @@
 import { Star, MapPin, Bookmark } from 'lucide-react';
 import { useEstablishmentsStore } from '../../store/establishmentsStore';
+import { useAuthStore } from '../../store/authStore'; // Додаємо імпорт для доступу до збереження
 import '../../style/EstablishmentCard.css'; // Підключаємо стилі
 
 export function EstablishmentCard({ establishment }) {
   const { savedEstablishments, toggleSaved } = useEstablishmentsStore();
+  const { saveEstablishment } = useAuthStore(); // Імпортуємо функцію збереження закладу
   const isSaved = savedEstablishments.includes(establishment.id);
+
+  // Функція для обробки збереження закладу
+  const handleSave = async () => {
+    try {
+      await saveEstablishment(establishment.id); // Викликаємо метод для збереження
+      toggleSaved(establishment.id); // Оновлюємо локальний стан закладу (якщо потрібно)
+    } catch (error) {
+      console.error('Error saving establishment:', error);
+    }
+  };
 
   return (
     <div className="establishment-card">
@@ -14,15 +26,14 @@ export function EstablishmentCard({ establishment }) {
           alt={establishment.name}
           className="establishment-image"
         />
-       <button
-  onClick={() => toggleSaved(establishment.id)}
-  className="save-est-button"
->
-  <Bookmark
-    className={`bookmark-icon ${isSaved ? 'fill-red-600 text-red-600' : 'text-gray-600'}`}
-  />
-</button>
-
+        <button
+          onClick={handleSave} // Викликаємо handleSave замість toggleSaved
+          className="save-est-button"
+        >
+          <Bookmark
+            className={`bookmark-icon ${isSaved ? 'fill-red-600 text-red-600' : 'text-gray-600'}`}
+          />
+        </button>
       </div>
       <div className="p-6">
         <div className="establishment-title-container">
