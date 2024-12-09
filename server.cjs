@@ -18,9 +18,7 @@ connectDB();
 // Middleware
 app.use(express.json());
 
-app.use(cors({
-  origin: 'https://yulia-gd.github.io/project/',
-}));
+
 
 // Функція для створення JWT токена
 const generateToken = (user) => {
