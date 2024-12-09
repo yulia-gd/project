@@ -67,7 +67,7 @@ export function LoginForm() {
 
       <div className="mt-4 text-center">
         <Link to="/forgot-password" className="forgot-password-link">
-          Forgot password?
+          Forgot password
         </Link>
       </div>
     </div>
