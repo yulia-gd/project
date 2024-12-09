@@ -20,94 +20,17 @@ app.use(express.json());
 
 
 
-// Функція для створення JWT токена
-const generateToken = (user) => {
-  return jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-};
 
-// Middleware для перевірки токену
-const auth = (req, res, next) => {
-  const token = req.header('Authorization');
-  if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    res.status(401).json({ message: 'Token is not valid' });
-  }
-};
-
-// --- Маршрути для користувачів ---
-
-// Реєстрація користувача
-app.post('/api/register', async (req, res) => {
-  try {
-    const { id, email, name, password } = req.body;
-
-    let user = await User.findOne({ email });
-    if (user) return res.status(400).json({ message: 'User already exists' });
-
-    user = new User({ id, email, name, password });
-    await user.save();
-
-    const token = generateToken(user);
-    res.status(201).json({ token, user });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
-  }
-});
 
 // Логування користувача
-app.post('/api/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-    if (!user || user.password !== password) {
-      return res.status(400).json({ message: 'Invalid email or password' });
-    }
-
-    const token = generateToken(user);
-    res.json({ token, user });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
-  }
-});
 
 // Отримання даних користувача
-app.get('/api/user', auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
-  }
-});
+
 
 // Збереження закладу для користувача
-app.post('/api/user/save-establishment', auth, async (req, res) => {
-  try {
-    const { establishmentId } = req.body;
 
-    const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({ message: 'User not found' });
-
-    if (!user.savedEstablishments.includes(establishmentId)) {
-      user.savedEstablishments.push(establishmentId);
-      await user.save();
-    }
-
-    res.json({ message: 'Establishment saved', savedEstablishments: user.savedEstablishments });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
-  }
-});
 
 // --- Маршрути для закладів ---
 
