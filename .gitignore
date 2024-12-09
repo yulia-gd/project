@@ -1,0 +1,9 @@
+# Ігноруємо папку node_modules
+node_modules/
+
+# Ігноруємо файл .env
+.env
+
+# Інші файли, які варто ігнорувати
+.DS_Store
+npm-debug.log
