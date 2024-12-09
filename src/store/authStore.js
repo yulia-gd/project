@@ -13,7 +13,7 @@ export const useAuthStore = create((set) => ({
         name: 'Yulia Huda',
         savedEstablishments: [],
         birthYear: 2005,
-        gender: 'female',
+        gender: 'Female',
         profilePhotoUrl: mockPhotoPath,
       };
 
@@ -43,5 +43,18 @@ export const useAuthStore = create((set) => ({
 
   logout: () => {
     set({ user: null, isAuthenticated: false });
+  },
+
+  updateUser: async (updatedData) => {
+    try {
+      set((state) => ({
+        user: {
+          ...state.user,
+          ...updatedData,
+        },
+      }));
+    } catch (error) {
+      console.error('Update user error:', error);
+    }
   },
 }));

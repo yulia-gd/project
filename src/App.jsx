@@ -9,6 +9,7 @@ import { CountryDetailPage } from './pages/CountryDetailPage';
 import { EstablishmentsPage } from './pages/EstablishmentsPage';
 import { SavedEstablishmentsPage } from './pages/SavedEstablishmentsPage';
 import { UserProfile } from './pages/UserProfile'; 
+import { EditProfilePage } from './pages/EditProfilePage'; 
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/establishments" element={<EstablishmentsPage />} />
             <Route path="/saved" element={<SavedEstablishmentsPage />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/edit-profile" element={<EditProfilePage />} />
             
             {/* Редирект з будь-якого іншого маршруту */}
             <Route path="*" element={<Navigate to="/" replace />} />

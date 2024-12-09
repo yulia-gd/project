@@ -3,6 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useCountriesStore } from '../store/countriesStore';
 import { useEstablishmentsStore } from '../store/establishmentsStore';
 import { EstablishmentCard } from '../components/establishments/EstablishmentCard';
+import '../style/CountryDetailPage.css';
 
 export function CountryDetailPage() {
   const { regionId, countryId } = useParams(); // без типізації
@@ -14,62 +15,61 @@ export function CountryDetailPage() {
 
   if (!country) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="page-container">
         <p>Country not found</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <Link
-        to={`/regions/${regionId}`}
-        className="inline-flex items-center text-red-600 hover:text-red-700 mb-8"
-      >
-        <ArrowLeft className="h-4 w-4 mr-2" />
+    <div className="page-container">
+      {/* Back link */}
+      <Link to={`/regions/${regionId}`} className="back-link">
+        <ArrowLeft className="back-link-icon" />
         Back to Region
       </Link>
 
-      <div className="relative rounded-2xl overflow-hidden">
+      {/* Hero section with country image */}
+      <div className="hero-image-container">
         <img
           src={country.imageUrl}
           alt={country.name}
-          className="w-full h-[400px] object-cover"
+          className="hero-image"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-          <h1 className="text-4xl font-bold">{country.name}</h1>
-          <p className="mt-2 text-lg text-white/90">{country.description}</p>
+        <div className="hero-gradient-overlay" />
+        <div className="hero-text">
+          <h1 className="hero-title">{country.name}</h1>
+          <p className="hero-description">{country.description}</p>
         </div>
       </div>
 
+      {/* Traditional Dishes Section */}
       <div className="mt-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Traditional Dishes</h2>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <h2 className="section-title">Traditional Dishes</h2>
+        <div className="establishments-grid">
           {country.traditionalDishes.map((dish) => (
             <div
               key={dish.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden"
+              className="traditional-dish-card"
             >
               <img
                 src={dish.imageUrl}
                 alt={dish.name}
-                className="w-full h-48 object-cover"
+                className="traditional-dish-image"
               />
-              <div className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900">{dish.name}</h3>
-                <p className="mt-2 text-gray-600">{dish.description}</p>
+              <div className="traditional-dish-content">
+                <h3 className="traditional-dish-title">{dish.name}</h3>
+                <p className="traditional-dish-description">{dish.description}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
 
+      {/* Popular Establishments Section */}
       <div className="mt-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          Popular Establishments
-        </h2>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <h2 className="section-title">Popular Establishments</h2>
+        <div className="establishments-grid">
           {establishments.map((establishment) => (
             <EstablishmentCard key={establishment.id} establishment={establishment} />
           ))}

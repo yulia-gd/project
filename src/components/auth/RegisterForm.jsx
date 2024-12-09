@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuthStore } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
+import '../../style/RegisterForm.css';
 
 export function RegisterForm() {
   const { register } = useAuthStore();
@@ -36,60 +37,60 @@ export function RegisterForm() {
   };
 
   return (
-    <form onSubmit={handleRegister} className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold text-gray-700 text-center mb-6">Register</h2>
+    <form onSubmit={handleRegister} className="form-container">
+      <h2 className="form-title">Register</h2>
 
-      <div className="mb-4">
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+      <div className="form-group">
+        <label htmlFor="name" className="form-label">Name</label>
         <input
           type="text"
           id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500"
+          className="form-input"
         />
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+      <div className="form-group">
+        <label htmlFor="email" className="form-label">Email</label>
         <input
           type="email"
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500"
+          className="form-input"
         />
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+      <div className="form-group">
+        <label htmlFor="password" className="form-label">Password</label>
         <input
           type="password"
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500"
+          className="form-input"
         />
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="birthYear" className="block text-sm font-medium text-gray-700">Birth Year</label>
+      <div className="form-group">
+        <label htmlFor="birthYear" className="form-label">Birth Year</label>
         <input
           type="number"
           id="birthYear"
           value={birthYear}
           onChange={(e) => setBirthYear(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500"
+          className="form-input"
         />
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender</label>
+      <div className="form-group">
+        <label htmlFor="gender" className="form-label">Gender</label>
         <select
           id="gender"
           value={gender}
           onChange={(e) => setGender(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500"
+          className="form-select"
         >
           <option value="male">Male</option>
           <option value="female">Female</option>
@@ -97,21 +98,18 @@ export function RegisterForm() {
         </select>
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="photo" className="block text-sm font-medium text-gray-700">Profile Photo</label>
+      <div className="form-group">
+        <label htmlFor="photo" className="form-label">Profile Photo</label>
         <input
           type="file"
           id="photo"
           accept="image/*"
           onChange={(e) => setPhoto(e.target.files?.[0] || null)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500"
+          className="form-input"
         />
       </div>
 
-      <button
-        type="submit"
-        className="w-full bg-orange-600 text-white py-2 px-4 rounded-md hover:bg-orange-700 transition-colors"
-      >
+      <button type="submit" className="form-button">
         Register
       </button>
     </form>
