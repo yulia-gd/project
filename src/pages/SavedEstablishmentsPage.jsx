@@ -1,10 +1,20 @@
+import { useEffect } from 'react';
 import { useEstablishmentsStore } from '../store/establishmentsStore';
 import { EstablishmentCard } from '../components/establishments/EstablishmentCard';
 import '../style/SavedEstablishmentsPage.css';
 
 export function SavedEstablishmentsPage() {
-  const { establishments, savedEstablishments } = useEstablishmentsStore();
-  
+  const { establishments, savedEstablishments, fetchEstablishments } = useEstablishmentsStore((state) => ({
+    establishments: state.establishments,
+    savedEstablishments: state.savedEstablishments,
+    fetchEstablishments: state.fetchEstablishments,
+  }));
+
+  // Fetch establishments when the component mounts
+  useEffect(() => {
+    fetchEstablishments();
+  }, [fetchEstablishments]);
+
   const savedPlaces = establishments.filter((establishment) =>
     savedEstablishments.includes(establishment.id)
   );

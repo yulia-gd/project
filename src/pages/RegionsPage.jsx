@@ -1,10 +1,39 @@
+import React, { useEffect } from 'react';
 import { useRegionsStore } from '../store/regionsStore';
 import { RegionCard } from '../components/regions/RegionCard';
 import { Globe } from 'lucide-react';
 import '../style/RegionPage.css';
 
 export function RegionsPage() {
-  const regions = useRegionsStore((state) => state.regions);
+  const { regions, fetchRegions } = useRegionsStore((state) => ({
+    regions: state.regions,
+    fetchRegions: state.fetchRegions,
+  }));
+
+  // Fetch regions if they are not already available
+  useEffect(() => {
+    if (regions.length === 0) {
+      fetchRegions();
+    }
+  }, [regions, fetchRegions]);
+
+  // Show a loading message if regions are not loaded yet
+  if (regions.length === 0) {
+    return (
+      <div className="page-container">
+        <div className="page-header">
+          <div className="header-icon">
+            <Globe className="globe-icon" />
+          </div>
+          <h1 className="page-title">Explore World Cuisines</h1>
+          <p className="page-description">
+            Discover culinary traditions from different parts of the world
+          </p>
+        </div>
+        <p>Loading regions...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="page-container">

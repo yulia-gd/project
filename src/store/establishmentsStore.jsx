@@ -1,6 +1,19 @@
+import { create } from 'zustand';
+import axios from 'axios';
+
 export const useEstablishmentsStore = create((set, get) => ({
-  establishments: mockEstablishments,
+  establishments: [],
   savedEstablishments: [],
+
+  // Функція для завантаження закладів з бекенду
+  fetchEstablishments: async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/establishments');
+      set({ establishments: response.data });
+    } catch (error) {
+      console.error('Error fetching establishments:', error);
+    }
+  },
 
   toggleSaved: (id) => {
     set((state) => ({

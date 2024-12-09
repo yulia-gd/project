@@ -1,10 +1,19 @@
 import { Link } from 'react-router-dom';
 import { Globe, Search, BookmarkCheck } from 'lucide-react';
+import { useEffect } from 'react';
 import { useRegionsStore } from '../store/regionsStore';
 import '../style/HomePage.css';
 
 export function HomePage() {
-  const regions = useRegionsStore((state) => state.regions);
+  const { regions, fetchRegions } = useRegionsStore((state) => ({
+    regions: state.regions,
+    fetchRegions: state.fetchRegions,
+  }));
+
+  // Fetch regions on component mount
+  useEffect(() => {
+    fetchRegions();
+  }, [fetchRegions]);
 
   return (
     <div className="relative overflow-hidden">

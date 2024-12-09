@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useRegionsStore } from '../store/regionsStore';
 import { ArrowLeft, UtensilsCrossed } from 'lucide-react';
@@ -6,9 +6,22 @@ import '../style/RegionDetailPage.css';
 
 export function RegionDetailPage() {
   const { regionId } = useParams();
-  const regions = useRegionsStore((state) => state.regions);
+  
+  // Get regions and fetch function from Zustand store
+  const { regions, fetchRegions } = useRegionsStore((state) => ({
+    regions: state.regions,
+    fetchRegions: state.fetchRegions,
+  }));
+
+  // Fetch regions data when the component mounts
+  useEffect(() => {
+    fetchRegions();
+  }, [fetchRegions]);
+
+  // Find the region by id from the fetched regions
   const region = regions.find((r) => r.id === regionId);
 
+  // If region not found, show a "not found" message
   if (!region) {
     return (
       <div className="page-container">

@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { Search, Filter } from 'lucide-react';
-import { useEstablishmentsStore } from '../store/establishmentsStore';
-import { EstablishmentCard } from '../components/establishments/EstablishmentCard';
+import { useState, useEffect } from 'react'; 
+import { Search, Filter } from 'lucide-react'; 
+import { useEstablishmentsStore } from '../store/establishmentsStore'; 
+import { EstablishmentCard } from '../components/establishments/EstablishmentCard'; 
 import '../style/EstablishmentsPage.css'; // Import the CSS file
 
 const ESTABLISHMENT_TYPES = [
-  'restaurant',
-  'street-food',
-  'cafe',
-  'traditional',
-  'casual',
-  'fine-dining',
+  'restaurant', 
+  'street-food', 
+  'cafe', 
+  'traditional', 
+  'casual', 
+  'fine-dining', 
 ];
 
 export function EstablishmentsPage() {
@@ -18,7 +18,17 @@ export function EstablishmentsPage() {
   const [selectedType, setSelectedType] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
-  const establishments = useEstablishmentsStore((state) => state.establishments);
+
+  // Get establishments and fetch function from Zustand store
+  const { establishments, fetchEstablishments } = useEstablishmentsStore((state) => ({
+    establishments: state.establishments,
+    fetchEstablishments: state.fetchEstablishments,
+  }));
+
+  // Call fetchEstablishments when the component mounts
+  useEffect(() => {
+    fetchEstablishments();
+  }, [fetchEstablishments]);
 
   const uniqueCountries = Array.from(
     new Set(establishments.map((establishment) => establishment.country))
