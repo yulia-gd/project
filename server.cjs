@@ -6,7 +6,7 @@ const Establishment = require('./backend/models/Establishment.cjs');
 const Country = require('./backend/models/Country.cjs');
 const Dish = require('./backend/models/Dish.cjs');
 const Region = require('./backend/models/Region.cjs');
-const User = require('./backend/models/User.cjs');
+
 require('dotenv').config();
 
 const app = express();
@@ -18,21 +18,6 @@ connectDB();
 // Middleware
 app.use(express.json());
 
-
-
-
-
-
-// Логування користувача
-
-
-// Отримання даних користувача
-
-
-// Збереження закладу для користувача
-
-
-// --- Маршрути для закладів ---
 
 // Отримання всіх закладів
 app.get('/api/establishments', async (req, res) => {
