@@ -10,7 +10,7 @@ export const useAuthStore = create((set) => ({
       const mockUser = {
         id: '1',
         email,
-        name: 'Yulia Huda',
+        name: 'User',
         savedEstablishments: [],
         birthYear: 2005,
         gender: 'Female',

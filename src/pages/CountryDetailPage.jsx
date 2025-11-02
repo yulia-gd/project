@@ -23,6 +23,7 @@ export function CountryDetailPage() {
       fetchCountries(); // Fetch countries if not loaded
     }
     if (establishments.length === 0) {
+      console.log('Fetching establishments in CountryDetailPage');
       fetchEstablishments(); // Fetch establishments if not loaded
     }
   }, [countries, establishments, fetchCountries, fetchEstablishments]);

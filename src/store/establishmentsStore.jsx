@@ -8,7 +8,8 @@ export const useEstablishmentsStore = create((set, get) => ({
   // Функція для завантаження закладів з бекенду
   fetchEstablishments: async () => {
     try {
-      const response = await axios.get('https://project-npq0.onrender.com/api/establishments');
+      const response = await axios.get('http://localhost:3000/api/establishments');
+      console.log('Fetched establishments:', response.data);
       set({ establishments: response.data });
     } catch (error) {
       console.error('Error fetching establishments:', error);
@@ -24,18 +25,27 @@ export const useEstablishmentsStore = create((set, get) => ({
   },
 
   filterByType: (type) => {
+     console.log("All establishments:", allEstablishments);
+  console.log("Filtering establishments by country:", type);
     return get().establishments.filter((establishment) =>
-      establishment.type.includes(type)
+      establishment.type.includes(type.toLowerCase() )
     );
   },
 
-  filterByCountry: (country) => {
-    return get().establishments.filter(
-      (establishment) => establishment.country === country
-    );
-  },
+filterByCountry: (country) => {
+  const allEstablishments = get().establishments;
+  console.log("All establishments:", allEstablishments);
+  console.log("Filtering establishments by country:", country);
+
+  return allEstablishments.filter(
+    (establishment) =>
+      establishment.country.toLowerCase() === country.toLowerCase()
+  );
+},
+
 
   filterByCity: (city) => {
+
     return get().establishments.filter(
       (establishment) => establishment.address.split(',')[0] === city
     );

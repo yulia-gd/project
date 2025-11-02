@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    port: 4000,
+  },
   optimizeDeps: {
     exclude: ['lucide-react'], // Якщо потрібно виключити ці залежності
   },
